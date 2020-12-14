@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>//BIBLIOTECAS;
+
+
+struct cadastrolojas {
+	char telefoneloja[14], nomeloja[24];
+	float precotablet;
+	int ativo;
+}; struct cadastrolojas cadloja[15]; //STRUCT dos 15 cadastros das lojas
+
+
+int main() {
+	setlocale(LC_ALL, "Portuguese");//Serve para ler acentos corretamente;
+	int s = 0, x = 0, a = 0, codigoloja, opcao = 0, qtdloja = 0, escolha, c;
+	float mediatabletlojas = 0, somatabletlojas = 0;
+	char op;
+	while (s >= 0) {//Um while que sempre será verdadeiro, usado para voltar pra ca depois de rodar todos comandos;
+		printf("\n");
+		printf("----------SISTEMA DE CONSULTA------------\n");
+		printf("-----------------PREÇOS------------------\n\n");
+		printf("[ I ] Inserir Nova Loja\n");
+		printf("[ E ] Excluir Lojas Cadastradas\n");
+		printf("[ P ] Melhores Preços\n");
+		printf("[ S ] Sair\n");
+		op = getchar(); // Vamos colocar na variável op o que o usuário selecionou
+		fflush(stdin); // Limpar Buffer
+		switch (op)
+		{
+		case 'I':
+			system("cls");//Limpa a tela do usuário;
+			printf("Digite o código da Loja (de 1 a 15)\n");
+			scanf_s("%d", &codigoloja);//Aqui saberemos se as informação serão na cadloja[1], cadloja[2], etc...
+			fflush(stdin);// Limpar Buffer
+			if (cadloja[codigoloja].ativo == 0 && codigoloja <= 15 && codigoloja >= 1) { //Aqui vemos se a loja já não está ativa no sistema, e se o codigo se enquadra entre 1 e 15
+				while ((c = getchar()) != '\n' && c != EOF) {} //Limpar Buffer
+				printf("Digite o nome da Loja:\n");
+				gets_s(cadloja[codigoloja].nomeloja);
+				fflush(stdin);
+				printf("Digite o telefone da Loja:\n");
+				gets_s(cadloja[codigoloja].telefoneloja);
+				fflush(stdin);
+				printf("Digite o valor do Tablet:\n");
+				scanf_s("%f", &cadloja[codigoloja].precotablet);
+				fflush(stdin);
+				cadloja[codigoloja].ativo = 1; //Vou setar que a loja está ativa, porque se o usuário voltar a querer cadastrar a mesma loja apresente a mensagem da linha 53
+			}
+			else//Caso a loja ja tiver ativa ou o número digitado ser fora de 1 a 15 vem pra ca, onde teremos mais uma condição
+			{
+				if (codigoloja >= 1 && codigoloja <= 15)
+					//Caso o problema for a loja ja cadastrada vai mostrar a mensagem da linha 55
+					//Caso o problema ser o número fora de 1 a 15 vai mostrar a mensagem da linha 59
+				{
+					printf("Esse código já foi cadastrado\n\n");
+				}
+				else
+				{
+					printf("Esse código não está entre 1 e 15!\n\n");
+				}
+			}
+			while ((c = getchar()) != '\n' && c != EOF) {}
+			break;
+		case 'E':
+			system("cls");//Limpa a tela do usuário;
+			printf("Digite o código da Loja que deseja excluir (de 1 a 15)\n");
+			scanf_s("%d", &codigoloja);//Vamos perguntar qual codigo da loja que o usuário quer excluir
+			if (cadloja[codigoloja].ativo == 1)//Verificamos se a loja realmente existe e está ativa, se tiver inativa mostra mensagem da linha 75
+			{
+				cadloja[codigoloja].ativo = 0;//Inativamos a loja e mostramos a mensagem abaixo
+				printf("Loja %s inativada com sucesso\n\n", cadloja[codigoloja].nomeloja);
+			}
+			else
+			{
+				printf("Essa loja já está inativa\n\n");
+			}
+			while ((c = getchar()) != '\n' && c != EOF) {}//Limpa o Buffer
+			break;
+		case 'P':
+			system("cls");//Limpa a tela do usuário;
+			for (x = 0; x < 15; x++)//Aqui faremos uma varredura em todos cadastros ativos(Condicao da linha 83)
+			{
+				if (cadloja[x].ativo == 1)
+				{
+					somatabletlojas = somatabletlojas + cadloja[x].precotablet;//Somamos todos preços dos tablets
+					qtdloja++;//Somamos a quantidade de loja cadastrada
+				}
+			}
+			mediatabletlojas = somatabletlojas / qtdloja;//Pegando soma total de preço (linha 85) e dividindo pelo número de lojas ativas (linha86)
+			printf("A média de preços das lojas é de R$ %.2f \n\n", mediatabletlojas);
+			printf("Os Tablets com valores abaixo da média são:\n\n");
+			for (a = 0; a < 15; a++)//Nova varredura no sistema pra verificar quais estão abaixo da média
+			{
+				if (cadloja[a].ativo == 1 && cadloja[a].precotablet <= mediatabletlojas)//Como ja tem a média, é só ver quais lojas tem tablet com preço igual ou menor
+				{
+					printf("Loja:%s, Telefone %s, Preço Tablet R$ %.2f.\n", cadloja[a].nomeloja, cadloja[a].telefoneloja, cadloja[a].precotablet);
+				}
+			}
+			while ((c = getchar()) != '\n' && c != EOF) {}//Limpa Buffet
+			break;
+		case 'S':
+			return 2;//Retorna 2, que vai ir para o exit da linha 112
+			break;
+		default:
+			printf("\nOpcões invalidas, por favor tente outra vez.\n");//Caso usuário digitar uma opção inexistente;
+			while ((c = getchar()) != '\n' && c != EOF) {}//Limpa Buffet
+			break;
+
+		}
+		continue;//Para voltar para as primeiras opções;
+		system("cls");//Limpa a tela do usuário;
+		exit(2);//Sai do sistema
+		system("pause");
+		return 0;
+	}
+}
