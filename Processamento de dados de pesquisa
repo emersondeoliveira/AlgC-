@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>//BIBLIOTECAS;
+int main() {
+setlocale(LC_ALL, "Portuguese");//Serve para ler acentos corretamente;
+int totalpessoas, qtdmasc = 0, qtdfem = 0, entrevistadonumero = 0, qtdmascrespsim = 0, qtdmascrespnao = 0, qtdfemrespsim = 0, qtdfemrespnao =
+0, i, sexo, resposta, respostasim, respostanao;
+float porcfemsim, porcmascnao,numeroqlq;
+printf("----------SISTEMA DE PROCESSAMENTO DE----------\n");
+printf("--------DADOS DE PESQUISAS EM INFORMAÇÃO-------\n");
+printf("Primeiro informe quantas pessoas foram entrevistadas:");
+scanf_s("%d", &totalpessoas);//O usuário vai informar quantas pessoas responderam, e vamos usar esse número para rodar a rotina da linha 14;
+system("cls");//Limpa a tela do usuário
+for (i = 0; i < totalpessoas; ++i) {
+entrevistadonumero++;//Setamos a variavel entrevistadonumero para facilitar para o usuario, visto que são 2 perguntas, ai colocamos o
+numero na pergunta;
+printf("\nO entrevistado número %d é 1-masculino ou 2-feminino?",entrevistadonumero);
+scanf_s("%d", &sexo);//Vamos guardar na variável sexo se é masculino ou feminino;
+if (sexo == 1) {//Se é masculino(1), vai fazer os comandos abaixo;
+qtdmasc++;
+printf("\nO entrevistado número %d gostou do produto? 1-sim ou 2-não:",entrevistadonumero);
+scanf_s("%d", &resposta);//Se a resposta for 1-Sim vamos incrementar um número inteiro na variável qtdmascrespsim;
+if (resposta == 1) {
+qtdmascrespsim++;
+1
+}
+else//Se a resposta aqui for 2-Não vamos incrementar um número inteiro na variável qtdmascrespnao;
+{
+qtdmascrespnao++;
+}
+}
+else {//Se é feminino(2), vai fazer os comandos abaixo;
+qtdfem++;
+printf("\nO entrevistado número %d gostou do produto? 1-sim ou 2-não:",entrevistadonumero);
+scanf_s("%d", &resposta);//Se a resposta aqui for 1-Sim vamos incrementar um número inteiro na variável qtdmascrespsim;
+if (resposta == 1) {
+qtdfemrespsim++;
+}
+else//Se a resposta aqui for 2-Não vamos incrementar um número inteiro na variável qtdmascrespnao;
+{
+qtdfemrespnao++;
+}
+}
+system("cls");//Limpa a tela do usuário;
+};
+numeroqlq = (100 / totalpessoas);//A variavel numeroqlq vamos usar para calcular porcentagem abaixo
+respostasim = qtdmascrespsim + qtdfemrespsim;//Fizemos essa soma para saber a quantidade de resposta sim
+respostanao = qtdmascrespnao + qtdfemrespnao;//Fizemos essa soma para saber a quantidade de resposta não
+porcfemsim = qtdfemrespsim * numeroqlq;//Usamos a variável numeroqlq da linha 44 para calcular porcentagem sim
+porcmascnao = qtdfemrespnao * numeroqlq;//Usamos a variável numeroqlq da linha 44 para calcular porcentagem não
+printf("----------INFORMAÇÕES PROCESSADAS DA PESQUISA----------\n\n");
+printf("A quantidade de pessoas que responderam sim foi: %d\n\n",respostasim);
+printf("A quantidade de pessoas que responderam não foi: %d\n\n",respostanao);
+printf("A percentagem de pessoas do sexo feminino que responderam sim foi: %.2f\n\n", porcfemsim);
+printf("A percentagem de pessoas do sexo masculino que responderam não foi: %.2f\n\n", porcmascnao);
+system("pause");
+return 0;//Retorno do main da linha 5
+}
