@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>//BIBLIOTECAS;
+
+
+struct cadastroacao {
+	char nomeacao[6], areaacao[30];
+	float valorabertura, valorfechamento;
+	int ativo;
+	double variacaoacao;
+}; struct cadastroacao cadacao[5]; //STRUCT dos 5 ativos cadastrados
+
+int main() {
+	setlocale(LC_ALL, "Portuguese");//Serve para ler acentos corretamente;
+	int s = 0, x = 0, a = 0, codigoacao, opcao = 0, qtdloja = 0, escolha, c;
+	char op;
+	while (s >= 0) {//Um while que sempre será verdadeiro, usado para voltar pra ca depois de rodar todos comandos;
+		printf("\n");
+		printf("-------SISTEMA DE CONSULTA DE VARIAÇÃO-------\n");
+		printf("-----------------DE ATIVOS DA BOLSA----------\n\n");
+		printf("[ I ] Inserir Novo Ativo\n");
+		printf("[ M ] Mostrar Todos Ativos \n");
+		printf("[ S ] Sair\n");
+		op = getchar(); // Vamos colocar na variável op o que o usuário selecionou
+		fflush(stdin); // Limpar Buffer
+		switch (op)
+		{
+		case 'I':
+			system("cls");//Limpa a tela do usuário;
+			printf("Digite o código da Loja (de 1 a 5)\n");
+			scanf_s("%d", &codigoacao);//Aqui saberemos se as informação serão na cadacao[1], cadacao[2], etc...
+			fflush(stdin);// Limpar Buffer
+			if (cadacao[codigoacao].ativo == 0 && codigoacao <= 5 && codigoacao >= 1) { //Aqui vemos se a acao já foi cadastrada no sistema, e se o codigo se enquadra entre 1 e 5
+				while ((c = getchar()) != '\n' && c != EOF) {} //Limpar Buffer
+				printf("Digite o nome da Ação:\n");
+				gets_s(cadacao[codigoacao].nomeacao);
+				fflush(stdin);
+				printf("Digite a área de atuação do ativo:\n");
+				gets_s(cadacao[codigoacao].areaacao);
+				fflush(stdin);
+				printf("Digite o valor de abertura:\n");
+				scanf_s("%f", &cadacao[codigoacao].valorabertura);
+				fflush(stdin);
+				printf("Digite o valor de fechamento:\n");
+				scanf_s("%f", &cadacao[codigoacao].valorfechamento);
+				fflush(stdin);
+				cadacao[codigoacao].ativo = 1; //Vou setar que a acao está ativa, porque se o usuário voltar a querer cadastrar a mesma acao apresente a mensagem da linha 59
+				cadacao[codigoacao].variacaoacao = ((cadacao[codigoacao].valorfechamento) - (cadacao[codigoacao].valorabertura)) * 100 / cadacao[codigoacao].valorabertura; //Simples calculo para saber a variacao
+				printf("A variação desse ativo foi de %.2lf por cento\n\n", cadacao[codigoacao].variacaoacao); //Apresentar na tela do usuário a variação
+			}
+			else//Caso a acao ja tiver ativa ou o número digitado ser fora de 1 a 5 vem pra cá, onde teremos mais uma condição
+			{
+				if (codigoacao >= 1 && codigoacao <= 5)
+					//Caso o problema for a acao ja cadastrada vai mostrar a mensagem da linha 59
+					//Caso o problema ser o número fora de 1 a 5 vai mostrar a mensagem da linha 63
+				{
+					printf("Esse código já foi cadastrado\n\n");
+				}
+				else
+				{
+					printf("Esse código não está entre 1 e 5!\n\n");
+				}
+			}
+			while ((c = getchar()) != '\n' && c != EOF) {}
+			break;
+		case 'M':
+			system("cls");//Limpa a tela do usuário;
+			for (x = 0; x <= 5; x++)//Aqui faremos uma varredura em todos cadastros ativos(Condicao da linha 72)
+			{	
+				if (cadacao[x].ativo == 1)
+				{
+					printf("Ativo: %s; Área de Atuação: %s; Valor de abertura: %.2f, Valor de Fechamento: %.2f, Variação: %.2lf %\n", cadacao[x].nomeacao, cadacao[x].areaacao, cadacao[x].valorabertura, cadacao[x].valorfechamento, cadacao[x].variacaoacao);
+					//Mostrar os cadastros com variacao na tela do usuário
+				}
+			}
+			while ((c = getchar()) != '\n' && c != EOF) {}//Limpa Buffet
+			break;
+		case 'S':
+			return 2;//Retorna 2, que vai ir para o exit da linha 90
+			break;
+		default:
+			printf("\nOpcões invalidas, por favor tente outra vez.\n");//Caso usuário digitar uma opção inexistente;
+			while ((c = getchar()) != '\n' && c != EOF) {}//Limpa Buffet
+			break;
+		}
+		continue;//Para voltar para as primeiras opções;
+		system("cls");//Limpa a tela do usuário;
+		exit(2);//Sai do sistema
+		system("pause");
+		return 0;
+	}
+}
