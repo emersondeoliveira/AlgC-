@@ -5,7 +5,8 @@
 
 
 struct cadastrolojas {
-	char telefoneloja[14], nomeloja[24];
+	char telefoneloja[14] = { '\0' };
+	char nomeloja [24] = { '\0' };
 	float precotablet;
 	int ativo;
 }; struct cadastrolojas cadloja[15]; //STRUCT dos 15 cadastros das lojas
@@ -23,14 +24,15 @@ int main() {
 		printf("[ I ] Inserir Nova Loja\n");
 		printf("[ E ] Excluir Lojas Cadastradas\n");
 		printf("[ P ] Melhores Preços\n");
-		printf("[ S ] Sair\n");
-		op = getchar(); // Vamos colocar na variável op o que o usuário selecionou
+		printf("[ F ] Sair\n");
+		printf("[ S ] Salvar em arquivo CSV\n");
+			op = getchar(); // Vamos colocar na variável op o que o usuário selecionou
 		fflush(stdin); // Limpar Buffer
 		switch (op)
 		{
 		case 'I':
 			system("cls");//Limpa a tela do usuário;
-			printf("Digite o código da Loja (de 1 a 15)\n");
+			printf("Digite o código da Loja (de 1 a 15)");
 			scanf_s("%d", &codigoloja);//Aqui saberemos se as informação serão na cadloja[1], cadloja[2], etc...
 			fflush(stdin);// Limpar Buffer
 			if (cadloja[codigoloja].ativo == 0 && codigoloja <= 15 && codigoloja >= 1) { //Aqui vemos se a loja já não está ativa no sistema, e se o codigo se enquadra entre 1 e 15
@@ -93,13 +95,34 @@ int main() {
 			{
 				if (cadloja[a].ativo == 1 && cadloja[a].precotablet <= mediatabletlojas)//Como ja tem a média, é só ver quais lojas tem tablet com preço igual ou menor
 				{
-					printf("Loja:%s, Telefone %s, Preço Tablet R$ %.2f.\n", cadloja[a].nomeloja, cadloja[a].telefoneloja, cadloja[a].precotablet);
+					printf("Loja:%sTelefone %sPreço Tablet R$ %.2f.\n", cadloja[a].nomeloja, cadloja[a].telefoneloja, cadloja[a].precotablet);
 				}
 			}
 			while ((c = getchar()) != '\n' && c != EOF) {}//Limpa Buffet
 			break;
-		case 'S':
+		case 'F':
 			return 2;//Retorna 2, que vai ir para o exit da linha 112
+			break;
+		case 'S':
+			FILE *stream; //Adicionando o ponteiro
+			fopen_s(&stream,"precos.csv", "wt");
+			printf("Seu arquivo foi criado com sucesso!\n");
+			if (stream == NULL) //Caso der errado a criação do arquivo vai estar stream == Null e vai cair na mensagem da linha 112
+			{
+				printf("Não foi possível abrir o arquivo.");
+				exit(0);
+			}
+				fprintf(stream, "loja;telefone;preco\n");// adicionando primeira linha das colunas,
+				for (x = 0; x < 15; x++) //Uma varredura no sistema pra ler todos registros das lojas
+				{
+					if (cadloja[x].ativo == 1) //Filtrando somente as lojas ativas
+					{
+						fprintf(stream, "%s;%s;%f\n", cadloja[x].nomeloja, cadloja[x].telefoneloja, cadloja[x].precotablet);//:Jugando pra dentro do arquivo separando com ;
+					}
+					
+				}
+				fclose(stream);
+				while ((c = getchar()) != '\n' && c != EOF) {}//Limpa Buffet
 			break;
 		default:
 			printf("\nOpcões invalidas, por favor tente outra vez.\n");//Caso usuário digitar uma opção inexistente;
