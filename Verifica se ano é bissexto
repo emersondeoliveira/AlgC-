@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>//BIBLIOTECAS;
+
+int verificacaobissexto(int anox) {//Função que pede no exercício
+	int resultado;
+	if (anox % 400 == 0)//Verifica se é múltiplo de 400, se ser retorna 1
+	{
+		resultado = 1;
+		return resultado;
+	}
+	else
+	{
+
+	if (anox % 4 == 0)//Verifica se é múltimo de 4, se ser verifica se é múltiplo de 100 na linha 18
+	{
+		if (anox % 100 == 0)// Verifica se é múltiplo de 100, se ser retorna 0, caso não ser, retorna 1
+		{
+			resultado = 0;
+			return resultado;
+		}
+		else
+		{
+			resultado = 1;
+			return resultado;
+		}
+
+	}
+
+	}
+}
+
+int main() {
+	setlocale(LC_ALL, "Portuguese");//Serve para ler acentos corretamente;
+	int ano, seculo, anodesejado, primeiroano, ultimoano, x = 0, c;
+	printf("Digite o seculo escolhido \n");
+	scanf_s("%d", &seculo);
+	while ((c = getchar()) != '\n' && c != EOF) {}//Limpa o buffer
+	primeiroano = (100 * seculo) - 99;//Vamos definir o primeiro ano do século
+	ultimoano = (primeiroano + 99);//Vamos definir o último ano do século
+	printf("Digite o ano desejado entre %d e %d: \n", primeiroano, ultimoano);//Vamos pedir para o usuário digitar o ano que deseja saber se é bissexto
+	scanf_s("%d", &anodesejado);
+	printf("Os anos bissextos do século %d são: \n", seculo);//Mostramos essa mensagem e em seguida listamos todos anos bissextos
+	for (int i = primeiroano; i <= ultimoano; i++) {//Varredura no sistema que vai do primeiro ano do século ao último
+		if (i % 400 == 0)//Verifica se é múltiplo de 400, se ser mostra a mensagem da linha 48
+		{
+			printf("%d \n", i);
+		}
+		else
+		{
+
+			if (i % 4 == 0) {//Verifica se é múltimo de 4, se ser verifica se é múltiplo de 100 na linha 54
+				if (i % 100 == 0)// Verifica se é múltiplo de 100, caso não ser, retorna a mensagem da linha 60
+				{
+					printf("\n");
+				}
+				else
+				{
+					printf("%d \n", i);
+				}
+			}
+
+		}
+		}
+	while ((c = getchar()) != '\n' && c != EOF) {}// Limpa o buffer
+	x = verificacaobissexto(anodesejado);//Vamos chamar uma função para analisar o ano digitado pelo usuário
+	if (x == 1)//Caso o retorno ser 1, apresenta a mensagem da linha 70
+	{
+		printf("O ano %d é bissexto.\n", anodesejado);
+	}
+	else//Caso o retorno não ser 1, apresenta a mensagem da linha 74
+	{
+		printf("O ano %d não é bissexto.\n\n", anodesejado);
+	}
+	system("pause");
+	return 0;
+}
