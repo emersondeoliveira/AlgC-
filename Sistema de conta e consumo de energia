@@ -1,0 +1,92 @@
+int main() {
+setlocale(LC_ALL, "Portuguese");//Serve para ler acentos corretamente;
+int numconta[9], escolha, x = 0, a, numcontamaior = 0, numcontamenor = 0, opcaoinformacao, numcontaacima170[9], y = 0;
+float consumomes[9], custoporkw, consumomesacima170[9], valormes[9], valormesacima170[9], valormaior = 0, valormenor = 0, consumomaior = 1,
+consumomenor = 200, somaconsumocidade = 0, mediaconsumocidade;
+custoporkw = 1.75;
+while (custoporkw == 1.75) {//Um while que sempre será verdadeiro, usado para voltar pra ca depois de rodar todos comandos;
+printf("----------SISTEMA DE GESTÃO DE------------\n");
+printf("--------CONTA E CONSUMO DE ENERGIA--------\n\n");
+printf("Digite 1 para cadastrar um novo consumidor\n");
+printf("Digite 2 para informações de contas\n");
+scanf_s("%d", &escolha);
+system("cls");//Limpa a tela do usuário;
+switch (escolha) {
+case 1://Se o usuário escolher 1 vamos fazer 2 perguntas (linha19 e linha21), depois tratar as informações;
+printf("digite qual número da conta de luz:\n");
+scanf_s("%d", &numconta[x]);
+printf("Digite o total de KW ultilizado nesse mes:\n");
+scanf_s("%f", &consumomes[x]);
+valormes[x] = consumomes[x] * custoporkw;//Multiplicação simples para saber quanto usuário deverá pagar;
+somaconsumocidade = somaconsumocidade + consumomes[x];
+printf("Esse consumidor em questão deverá pagar o valor de %.2f R$\n", valormes[x]);
+if (consumomes[x] > 170) {//Vamos saber se o consumo foi acima de 170 KW, se sim vamos setar nos vetores (linhas 27,28,29);
+consumomesacima170[x] = consumomes[x];
+valormesacima170[x] = valormes[x];
+numcontaacima170[x] = numconta[x];
+}
+else {
+consumomesacima170[x] = 0;
+valormesacima170[x] = 0;
+numcontaacima170[x] = 0;
+}
+if (consumomes[x] > consumomaior) {//Vamos saber se o consumo mês é maior do que está na variável consumomaior, se sim vamos setar nos vetores informações dessa conta (linhas 37,38,39);
+consumomaior = consumomes[x];
+valormaior = valormes[x];
+numcontamaior = numconta[x];
+}
+if (consumomes[x] < consumomenor) {//Vamos saber se o consumo mês é menor do que está na variável consumomenor, se sim vamos setar nos vetores informações dessa conta (linhas 42,43,44);
+consumomenor = consumomes[x];
+valormenor = valormes[x];
+numcontamenor = numconta[x];
+}
+x++;//Vamos adicionar um numero inteiro na variavel x, porque o usuário pode querer cadastrar mais consumidores;
+break;
+case 2://Se escolher 2 vai ter mais opções para escolher
+printf("----------INFORMAÇÕES PROCESSADAS DE CONTAS E CONSUMO DE ENERGIA----------\n\n");
+printf("Digite 1 para listar o número da conta, o consumo e valores mensais de cada consumidor.\n");
+printf("Digite 2 para apresentar o número da conta, o consumo e o valor mensal do consumidor que mais gastou.\n");
+printf("Digite 3 para apresentar o número da conta, o consumo e o valor mensal do consumidor que menos gastou.\n");
+printf("Digite 4 para apresentar a média de consumo da cidade.\n");
+printf("Digite 5 para apresentar o número da conta, o consumo e o valor mensal de cada consumidor que ultrapassaram o consumo de
+170KW; .\n");
+scanf_s("%d", &opcaoinformacao);
+switch (opcaoinformacao) {
+case 1:
+for (a = 0; a < x; a++) {//Usamos esse for para ler todos dados dos vetores;
+printf("Conta número: %d, Consumo: %.2fKW, Custo: %.2f R$\n\n\n", numconta[a], consumomes[a], valormes[a]);
+}
+break;
+case 2:
+printf("A conta que mais consumiu no mês foi a conta número %d, consumiu %.2f KW e custou %.2f R$\n\n" , numcontamaior,
+consumomaior, valormaior);
+break;
+case 3:
+printf("A conta que menos consumiu no mês foi a conta de número %d, consumiu %.2f KW e custou %.2f R$\n\n" , numcontamenor,
+consumomenor, valormenor);
+break;
+case 4:
+mediaconsumocidade = somaconsumocidade / x;//Media = consumo da cidade / número total de pessoas cadastradas;
+printf("A média de consumo da cidade é de %.2f KW\n\n", mediaconsumocidade);
+break;
+case 5:
+printf("As contas que ultrapassam 170 KW de consumo são:\n");
+for (a = 0; a < x; a++) {//Novamente usamos esse for para ler todos dados dos vetores;
+if (numcontaacima170 != 0) {
+printf("Conta número:%d\n\n", numcontaacima170[a]);
+}
+}
+break;
+default:
+printf("\nOpcões invalidas, por favor tente outra vez.\n");//Caso usuário digitar uma opção inexistente;
+break;
+}
+break;
+default:
+printf("\nOpcões invalidas, por favor tente outra vez.\n");//Caso usuário digitar uma opção inexistente;
+}
+continue;//Para voltar para as primeiras opções;
+}
+system("pause");
+return 0 ;
+}
